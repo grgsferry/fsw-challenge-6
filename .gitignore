@@ -1,0 +1,3 @@
+node_modules/
+sequelize-cli.config.json
+.env
