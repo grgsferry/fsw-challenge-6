@@ -5,13 +5,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
-    <title>Dashboard</title>
+    <title>Dashboard User</title>
   </head>
   <body>
-    <nav class="navbar navbar-expand navbar-light d-flex justify-content-between">
-      <h1>DASHBOARD</h1>
-      <a class="btn btn-danger" href="/logout" role="button">Log Out</a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand">Dashboard</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="/dashboard/users">Users</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/dashboard/games">Games</a>
+          </li>
+          <li>
+            <a class="btn btn-danger" href="/logout" role="button">Log Out</a>
+          </li>
+        </ul>
+      </div>
     </nav>
+
     <div class="container">
       <div class="row d-flex flex-row-reverse px-0 py-1">
         <a class="btn btn-primary" href="/users/new" role="button">Create New User</a>

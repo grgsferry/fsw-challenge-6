@@ -4,7 +4,12 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon app.js",
+    "db-migrate": "sequelize db:migrate --config './sequelize-cli.config.json'",
+    "db-migrate-status": "sequelize db:migrate:status --config './sequelize-cli.config.json'",
+    "db-migrate-undo": "sequelize db:migrate:undo --config './sequelize-cli.config.json'",
+    "db-seed-all": "sequelize db:seed:all --config './sequelize-cli.config.json'",
+    "db-seed-undo": "sequelize db:seed:undo --config './sequelize-cli.config.json'"
   },
   "author": "",
   "license": "ISC",

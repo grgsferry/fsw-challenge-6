@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
-    <title>Edit User Data</title>
+    <title>Edit Game Data</title>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -29,7 +29,7 @@
     </nav>
 
     <div class="container">
-      <a class="btn btn-secondary" href="/users/<%=user.uuid%>" role="button">Back</a>
+      <a class="btn btn-secondary" href="/games/<%=game.uuid%>" role="button">Back</a>
 
       <% if(typeof alert != 'undefined') { %> <% alert.forEach(function(error) { %>
       <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -40,36 +40,28 @@
       </div>
       <% }) %> <% } %>
 
-      <form action="/users/edit/<%=user.uuid%>" method="POST">
+      <form action="/games/edit/<%=game.uuid%>" method="POST">
         <div class="form-row">
           <div class="form-group">
             <label for="uuid">UUID</label>
-            <input type="text" class="form-control" name="uuid" id="uuid" placeholder="uuid" value="<%= user.uuid %>" readonly />
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="username">Username</label>
-            <input type="text" class="form-control" name="username" id="username" placeholder="Username" value="<%= user.username %>" />
-          </div>
-          <div class="form-group col-md-6">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" name="password" id="password" placeholder="Password" value="<%= user.password %>" />
+            <input type="text" class="form-control" name="uuid" id="uuid" placeholder="uuid" value="<%=game.uuid%>" readonly />
           </div>
         </div>
         <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" class="form-control" name="email" id="email" placeholder="Email" value="<%= user.email %>" />
+          <label for="title">Title</label>
+          <input type="text" class="form-control" name="title" id="title" placeholder="Title" value="<%= game.title %>" />
         </div>
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="firstname">First Name</label>
-            <input type="text" class="form-control" name="firstname" id="firstname" value="<%= user.firstname %>" />
-          </div>
-          <div class="form-group col-md-6">
-            <label for="lastname">Last Name</label>
-            <input type="text" class="form-control" name="lastname" id="lastname" value="<%= user.lastname %>" />
-          </div>
+        <div class="form-group">
+          <label for="details">Details</label>
+          <textarea class="form-control" name="details" id="details" placeholder="Put game details here..." cols="40" rows="5"><%= game.details %></textarea>
+        </div>
+        <div class="form-group">
+          <label for="genre">Genre</label>
+          <input type="text" class="form-control" name="genre" id="genre" placeholder="Genre" value="<%= game.genre %>" />
+        </div>
+        <div class="form-group">
+          <label for="imglink">Image Link</label>
+          <input type="text" class="form-control" name="imglink" id="imglink" value="<%= game.imglink %>" />
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
