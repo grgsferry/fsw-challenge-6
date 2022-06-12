@@ -258,16 +258,16 @@ app.post("/users/delete/:uuid", checkLogin, async (req, res) => {
 });
 
 //DELETE Game By UUID
-app.post("/games/delete/:uuid", checkLogin, async (req, res) => {
-  const uuid = req.params.uuid;
-  try {
-    const game = await Games.findOne({ where: { uuid } });
-    await game.destroy();
-    return res.redirect("/dashboard/games");
-  } catch (err) {
-    return res.status(500).json(err);
-  }
-});
+// app.post("/games/delete/:uuid", checkLogin, async (req, res) => {
+//   const uuid = req.params.uuid;
+//   try {
+//     const game = await Games.findOne({ where: { uuid } });
+//     await game.destroy();
+//     return res.redirect("/dashboard/games");
+//   } catch (err) {
+//     return res.status(500).json(err);
+//   }
+// });
 
 //UPDATE User By UUID
 app.get("/users/edit/:uuid", checkLogin, async (req, res) => {
@@ -348,7 +348,9 @@ app.post("/games/edit/:uuid", checkLogin, gamesEmptyValidator, gamesDuplicateVal
 //CREATE Score By User's UUID
 app.get("/scores/:userUuid", checkLogin, async (req, res) => {
   const userUuid = req.params.userUuid;
-  res.render("createscores", { userUuid });
+  const totalGames = await Games.count({ col: "uuid" });
+  const games = await Games.findAll();
+  res.render("createscores", { userUuid, totalGames, games });
 });
 
 app.post("/scores/:userUuid", checkLogin, async (req, res) => {

@@ -31,19 +31,43 @@
     <div class="container">
       <a class="btn btn-secondary" href="/users/<%=userUuid%>" role="button">Back</a>
 
-      <form action="/scores/<%=userUuid%>" method="POST">
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="gameid">Game ID</label>
-            <input type="number" class="form-control" name="gameid" id="gameid" min="1" max="10" />
-          </div>
-          <div class="form-group col-md-6">
-            <label for="score">Score</label>
-            <input type="number" class="form-control" name="score" id=" score" min="0" max="100" />
-          </div>
+      <div class="row">
+        <div class="col">
+          <h3>Available Games</h3>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Game ID</th>
+                <th scope="col">Game Title</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% games.forEach(game => { %>
+              <tr>
+                <th scope="row"><%= game.id %></th>
+                <td><%= game.title %></td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
+        <div class="col">
+          <h3>Input Score</h3>
+          <form action="/scores/<%=userUuid%>" method="POST">
+            <div class="form-group">
+              <label for="gameid">Game ID (1 - <%=totalGames%>)</label>
+              <input type="number" class="form-control" name="gameid" id="gameid" min="1" max="<%=totalGames%>" />
+            </div>
+            <div class="form-group">
+              <label for="score">Score (0 - 100)</label>
+              <input type="number" class="form-control" name="score" id=" score" min="0" max="100" />
+            </div>
+            <div class="d-flex justify-content-end">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   </body>
 </html>
