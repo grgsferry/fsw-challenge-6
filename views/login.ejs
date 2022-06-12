@@ -15,7 +15,7 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav"></div>
     </nav>
-    <div class="container">
+    <div class="container pt-5">
       <% if(typeof alert != 'undefined') { %> <% alert.forEach(function(error) { %>
       <div class="alert alert-warning alert-dismissible fade show" role="alert">
         <%= error.msg %>
@@ -34,7 +34,7 @@
           <label for="password">Password</label>
           <input type="password" class="form-control" name="password" id="password" placeholder="Password" />
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Log In</button>
       </form>
     </div>
   </body>

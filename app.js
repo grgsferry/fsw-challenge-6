@@ -118,6 +118,7 @@ const gamesDuplicateValidatorExisting = [
 
 //Login Middleware
 let loginStatus = false;
+
 const checkLogin = (req, res, next) => {
   if (loginStatus === true) {
     next();
@@ -125,6 +126,21 @@ const checkLogin = (req, res, next) => {
     res.redirect("/login");
   }
 };
+
+const loginCredentialValidator = [
+  body("username").custom(async (input) => {
+    if (input !== process.env.ADMIN_USERNAME) {
+      throw new Error("Invalid username.");
+    }
+    return true;
+  }),
+  body("password").custom(async (input) => {
+    if (input !== process.env.ADMIN_PASSWORD) {
+      throw new Error("Invalid password.");
+    }
+    return true;
+  }),
+];
 
 //Login Endpoint
 app.get("/login", async (req, res) => {
@@ -135,13 +151,15 @@ app.get("/login", async (req, res) => {
   }
 });
 
-app.post("/login", async (req, res) => {
-  const data = { adminUsername: req.body.username, adminPassword: req.body.password };
-  if (data.adminUsername === process.env.ADMIN_USERNAME && data.adminPassword === process.env.ADMIN_PASSWORD) {
+app.post("/login", loginCredentialValidator, async (req, res) => {
+  const errors = validationResult(req);
+  if (errors.isEmpty()) {
     loginStatus = true;
     res.redirect("/dashboard/users");
   } else {
-    res.render("login");
+    loginStatus = false;
+    const alert = errors.array();
+    res.render("login", { alert });
   }
 });
 
