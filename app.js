@@ -2,122 +2,20 @@ require("dotenv").config();
 
 const express = require("express");
 const app = express();
+const api = require(__dirname + "/api");
 
 const { sequelize, Users, Scores, Games } = require("./models");
 const { body, validationResult } = require("express-validator");
-const { Op } = require("sequelize");
+const { emptyValidator, validValidator, duplicateValidatorNew, duplicateValidatorExisting, gamesEmptyValidator, gamesDuplicateValidatorNew, gamesDuplicateValidatorExisting } = require("./function");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
-app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 
-//Validator Middlewares
-const emailDuplicateNew = async (input) => {
-  return await Users.findOne({
-    where: { email: input.email },
-  });
-};
-
-const usernameDuplicateNew = async (input) => {
-  return await Users.findOne({
-    where: { username: input.username },
-  });
-};
-
-const gamesDuplicateNew = async (input) => {
-  return await Games.findOne({
-    where: { title: input.title },
-  });
-};
-
-const emailDuplicateExisting = async (input) => {
-  return await Users.findOne({
-    where: {
-      email: input.email,
-      uuid: { [Op.not]: input.uuid },
-    },
-  });
-};
-
-const usernameDuplicateExisting = async (input) => {
-  return await Users.findOne({
-    where: {
-      username: input.username,
-      uuid: { [Op.not]: input.uuid },
-    },
-  });
-};
-
-const gamesDuplicateExisting = async (input) => {
-  return await Games.findOne({
-    where: {
-      title: input.title,
-      uuid: { [Op.not]: input.uuid },
-    },
-  });
-};
-
-const emptyValidator = [body("username", "Username cannot be empty.").not().isEmpty(), body("email", "Email cannot be empty.").not().isEmpty(), body("password", "Password cannot be empty.").not().isEmpty()];
-const validValidator = [body("email", "Email is not valid.").isEmail()];
-const duplicateValidatorNew = [
-  body().custom(async (input) => {
-    const isDuplicate = await emailDuplicateNew(input);
-    if (isDuplicate) {
-      throw new Error("Email is already registered.");
-    }
-    return true;
-  }),
-  body().custom(async (input) => {
-    const isDuplicate = await usernameDuplicateNew(input);
-    if (isDuplicate) {
-      throw new Error("Username is already registered.");
-    }
-    return true;
-  }),
-];
-
-const duplicateValidatorExisting = [
-  body().custom(async (input) => {
-    const isDuplicate = await emailDuplicateExisting(input);
-    if (isDuplicate) {
-      throw new Error("Email is already registered.");
-    }
-    return true;
-  }),
-  body().custom(async (input) => {
-    const isDuplicate = await usernameDuplicateExisting(input);
-    if (isDuplicate) {
-      throw new Error("Username is already registered.");
-    }
-    return true;
-  }),
-];
-
-const gamesEmptyValidator = [body("title", "Title cannot be empty.").not().isEmpty()];
-const gamesDuplicateValidatorNew = [
-  body().custom(async (input) => {
-    const isDuplicate = await gamesDuplicateNew(input);
-    if (isDuplicate) {
-      throw new Error("Game is already registered.");
-    }
-    return true;
-  }),
-];
-
-const gamesDuplicateValidatorExisting = [
-  body().custom(async (input) => {
-    const isDuplicate = await gamesDuplicateExisting(input);
-    if (isDuplicate) {
-      throw new Error("Game is already registered.");
-    }
-    return true;
-  }),
-];
+app.set("view engine", "ejs");
 
 //Login Middleware
-let loginStatus = false;
+let loginStatus = true;
 
 const checkLogin = (req, res, next) => {
   if (loginStatus === true) {
@@ -141,6 +39,9 @@ const loginCredentialValidator = [
     return true;
   }),
 ];
+
+//API Endpoint
+app.use("/api", checkLogin, api);
 
 //Login Endpoint
 app.get("/login", async (req, res) => {
@@ -274,18 +175,6 @@ app.post("/users/delete/:uuid", checkLogin, async (req, res) => {
     return res.status(500).json(err);
   }
 });
-
-//DELETE Game By UUID
-// app.post("/games/delete/:uuid", checkLogin, async (req, res) => {
-//   const uuid = req.params.uuid;
-//   try {
-//     const game = await Games.findOne({ where: { uuid } });
-//     await game.destroy();
-//     return res.redirect("/dashboard/games");
-//   } catch (err) {
-//     return res.status(500).json(err);
-//   }
-// });
 
 //UPDATE User By UUID
 app.get("/users/edit/:uuid", checkLogin, async (req, res) => {
@@ -424,7 +313,7 @@ app.use(function (req, res) {
 
 //Start App
 app.listen({ port: process.env.APP_PORT }, async () => {
-  console.log(`App is listening on port localhost:3000.`);
+  console.log(`App is listening on port localhost:${process.env.APP_PORT}.`);
   await sequelize.authenticate();
   console.log("Database connected!");
 });
