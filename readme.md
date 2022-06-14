@@ -85,7 +85,7 @@ node app.js
 
 | Route                        | HTTP   | Body                                                  | Description                   |
 | ---------------------------- | ------ | ----------------------------------------------------- | ----------------------------- |
-| /api/scores/:userUuid        | POST   | `gameid:Number` (required), `score:Number` (required) | Create a game                 |
+| /api/scores/:userUuid        | POST   | `gameid:Number` (required), `score:Number` (required) | Create a score for a User     |
 | /api/scores/user/:userUuid   | GET    | none                                                  | Get scores data per User UUID |
 | /api/scores/game/:gameUuid   | GET    | none                                                  | Get scores data per Game UUID |
 | /api/scores/score/:scoreUuid | DELETE | none                                                  | Delete a score data           |

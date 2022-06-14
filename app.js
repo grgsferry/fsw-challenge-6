@@ -15,7 +15,7 @@ app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
 
 //Login Middleware
-let loginStatus = true;
+let loginStatus = false;
 
 const checkLogin = (req, res, next) => {
   if (loginStatus === true) {
