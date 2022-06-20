@@ -49,11 +49,11 @@ ADMIN_PASSWORD=---insert your config here---
 - Run these command in your terminal:
 
 ```
-sequelize db:create --config './sequelize.config.json'
+sequelize db:create --config='./sequelize.config.json'
 
-sequelize db:migrate --config './sequelize.config.json'
+sequelize db:migrate --config='./sequelize.config.json'
 
-sequelize db:seed:all --config './sequelize.config.json'
+sequelize db:seed:all --config='./sequelize.config.json'
 ```
 
 - After successful database creation, mingration, and seeding, you can run the app using:
